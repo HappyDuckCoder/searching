@@ -1,8 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import MyVideoCard from "./radix/Card";
+import MyVideoCard from "./radix/VideoCard";
 import { FinalResultResponse } from "@/lib/youtube";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css"; // Import Swiper styles
+import "swiper/css/pagination";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
 const Videos = ({ query }: { query: string }) => {
   const [videos, setVideos] = useState<FinalResultResponse[]>([]);
@@ -23,8 +27,7 @@ const Videos = ({ query }: { query: string }) => {
       }
 
       const data = await response.json();
-
-      console.log(data);
+      console.log("Fetched videos:", data);
 
       setVideos(data || []);
     } catch (error) {
@@ -37,18 +40,27 @@ const Videos = ({ query }: { query: string }) => {
   }, [query]);
 
   return (
-    <div>
-      <ul className="flex flex-row flex-wrap justify-center gap-2">
-        {videos.length > 0 ? (
-          videos.map((video) => (
-            <li key={video.url}>
+    <div className="w-full max-w-4xl mx-auto">
+      {videos.length > 0 ? (
+        <Swiper
+          spaceBetween={20}
+          slidesPerView={4}
+          navigation
+          loop={true}
+          autoplay={{ delay: 1000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          modules={[Pagination, Navigation, Autoplay]}
+          className="mySwiper"
+        >
+          {videos.map((video) => (
+            <SwiperSlide key={video.url}>
               <MyVideoCard video={video} />
-            </li>
-          ))
-        ) : (
-          <p>No videos found.</p>
-        )}
-      </ul>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <p className="text-center mt-4">No videos found.</p>
+      )}
     </div>
   );
 };

@@ -31,25 +31,35 @@ export interface FinalResultResponse {
 }
 
 export async function getVideos(query: string): Promise<YouTubeVideoItem[]> {
-  const url = `${YOUTUBE_BASE_URL}/search?part=snippet&maxResults=4&key=${
-    process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
-  }&q=${encodeURIComponent(query)}&type=video`;
+  // ✅ Ensure API Key is defined
+  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  if (!apiKey) {
+    console.error(
+      "🚨 Missing API Key: Set NEXT_PUBLIC_YOUTUBE_API_KEY in .env.local"
+    );
+    return [];
+  }
+
+  const url = `${YOUTUBE_BASE_URL}/search?part=snippet&maxResults=6&key=${apiKey}&q=${encodeURIComponent(
+    query
+  )}&type=video`;
 
   try {
     const response = await fetch(url, { method: "GET" });
+
     // console.log(response);
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch videos: ${response.statusText}`);
+      console.error(
+        `❌ YouTube API Error: ${response.statusText} (Status: ${response.status})`
+      );
+      return [];
     }
 
     const data = await response.json();
-
-    return data.items as YouTubeVideoItem[];
+    return data.items || [];
   } catch (error) {
-    console.error("Error fetching videos:", error);
-    throw new Error(
-      "An error occurred while fetching videos. Please try again later."
-    );
+    console.error("❌ Error fetching videos:", error);
+    return [];
   }
 }

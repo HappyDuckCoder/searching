@@ -1,5 +1,7 @@
 import FormInput from "@/components/FormInput";
+import Images from "@/components/Images";
 import Question from "@/components/Question";
+import Sources from "@/components/Sources";
 import Videos from "@/components/Videos";
 import React from "react";
 
@@ -11,6 +13,8 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
       <section className="flex flex-col space-y-2">
         <Question query={query} />
         <Videos query={query} />
+        <Images query={query} />
+        <Sources query={query} />
         <FormInput />
       </section>
     </main>

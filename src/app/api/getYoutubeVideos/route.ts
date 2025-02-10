@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (e) {
-    console.error(e);
+    console.error("Error: ", e);
     return new Response("Error fetching sources", { status: 500 });
   }
 }
