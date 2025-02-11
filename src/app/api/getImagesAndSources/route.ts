@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const response: SearchResponse = await getSearchResults(body.question);
 
-    // console.log(response);
+    // console.log(response); 
 
     return new Response(JSON.stringify(response), {
       headers: {

@@ -15,6 +15,7 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
         <Videos query={query} />
         <Images query={query} />
         <Sources query={query} />
+
         <FormInput />
       </section>
     </main>
