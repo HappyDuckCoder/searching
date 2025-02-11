@@ -1,3 +1,4 @@
+import Answer from "@/components/Answer";
 import FormInput from "@/components/FormInput";
 import Images from "@/components/Images";
 import Question from "@/components/Question";
@@ -15,7 +16,7 @@ const SearchPage = async ({ params }: { params: { slug: string } }) => {
         <Videos query={query} />
         <Images query={query} />
         <Sources query={query} />
-
+        <Answer query={query} />
         <FormInput />
       </section>
     </main>
