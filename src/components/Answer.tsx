@@ -43,7 +43,7 @@ const Answer = ({ query }: { query: string }) => {
 
   useEffect(() => {
     fetchAnswer();
-  }, [query]);
+  }, [fetchAnswer, query]);
 
   return (
     <div className="p-6 bg-white shadow-md rounded-lg max-w-3xl border border-gray-200">

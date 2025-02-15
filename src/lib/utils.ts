@@ -16,23 +16,23 @@ export function formatDocument(text: string): string {
     .trim();
 }
 
-export function normalizeData(data: any): any {
-  if (typeof data === "string") {
-    return formatDocument(data);
-  }
+// export function normalizeData(data: any): any {
+//   if (typeof data === "string") {
+//     return formatDocument(data);
+//   }
 
-  if (Array.isArray(data)) {
-    return data.map((item) => normalizeData(item));
-  }
+//   if (Array.isArray(data)) {
+//     return data.map((item) => normalizeData(item));
+//   }
 
-  if (typeof data === "object" && data !== null) {
-    return Object.fromEntries(
-      Object.entries(data).map(([key, value]) => [key, normalizeData(value)])
-    );
-  }
+//   if (typeof data === "object" && data !== null) {
+//     return Object.fromEntries(
+//       Object.entries(data).map(([key, value]) => [key, normalizeData(value)])
+//     );
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 export const getValidImageUrl = (url: string | undefined) => {
   if (!url || url.trim() === "") {

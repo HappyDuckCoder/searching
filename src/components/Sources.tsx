@@ -48,7 +48,7 @@ const Sources = ({ query }: { query: string }) => {
 
   useEffect(() => {
     fetchSources();
-  }, [query]);
+  }, [fetchSources, query]);
 
   return (
     <div>

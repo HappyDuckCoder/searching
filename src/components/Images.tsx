@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { GlareCard } from "./acernity/glare-card";
+import Image from "next/image";
 
 interface ImageProps {
   url: string;
@@ -62,10 +63,12 @@ const Images = ({ query }: { query: string }) => {
           {images.map((image, index) => (
             <li key={index} className="relative group">
               <GlareCard className="relative w-full h-[250px] rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
-                <img
+                <Image
                   src={image.url}
                   alt={image.description || "Image"}
                   className="w-full h-full object-cover rounded-lg"
+                  width={500}
+                  height={500}
                 />
                 {/* Overlay text */}
                 <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">

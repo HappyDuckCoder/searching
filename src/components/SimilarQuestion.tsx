@@ -33,7 +33,7 @@ const SimilarQuestion = ({ query }: { query: string }) => {
   useEffect(() => {
     if (!query) return;
     generateSimilarQuestions();
-  }, [query]);
+  }, [generateSimilarQuestions, query]);
 
   return (
     <div className="flex flex-col items-center w-full max-w-lg mx-auto p-4">
