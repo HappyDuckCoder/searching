@@ -5,13 +5,16 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks"; // Fix lỗi xuống dòng Markdown
 import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/atom-one-dark.css"; // Giao diện code dark mode
+import fileDownload from "js-file-download"; // Thư viện tải file
+import { saveAs } from "file-saver"; // Hỗ trợ lưu file
+import { Button } from "@/components/ui/button"; // Nút tải file
 
 const Answer = ({ query }: { query: string }) => {
   const [answer, setAnswer] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // ✅ Dùng useCallback để tránh render lại không cần thiết
+  // ✅ Dùng useCallback để tối ưu hiệu suất
   const fetchAnswer = useCallback(async () => {
     if (!query.trim()) return;
     setLoading(true);
@@ -35,33 +38,57 @@ const Answer = ({ query }: { query: string }) => {
     } finally {
       setLoading(false);
     }
-  }, [query]); // ✅ Đảm bảo `fetchAnswer` không bị re-create mỗi lần render
+  }, [query]);
 
   useEffect(() => {
     fetchAnswer();
-  }, [fetchAnswer]); // ✅ Không còn lỗi ESLint
+  }, [fetchAnswer]);
+
+  // 📌 Hàm tải xuống file dưới dạng DOCX
+  const handleDownloadDoc = () => {
+    if (!answer) return;
+
+    const docContent = `
+      ${query ? `## Question:\n${query}\n\n` : ""}
+      ## Answer:\n${answer.replace(/\n/g, "\n\n")}
+    `;
+
+    const blob = new Blob([docContent], { type: "application/msword" });
+
+    // ✅ Dùng `fileDownload` và `saveAs` để tải file
+    fileDownload(blob, "Answer.docx");
+    saveAs(blob, "Answer.docx");
+  };
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg max-w-3xl border border-gray-200">
-      <h2 className="text-2xl font-bold mb-4 text-blue-600">Answer:</h2>
+    <div className="relative w-full p-4 mb-6 bg-slate-800 border border-gray-700 rounded-lg shadow-lg">
+      {/* 📌 Nút tải DOC ở góc trên bên phải */}
+      <Button
+        onClick={handleDownloadDoc}
+        className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm"
+      >
+        Download as DOC
+      </Button>
+
+      <h2 className="text-2xl font-bold mb-4">Answer:</h2>
 
       {loading ? (
-        <p className="text-gray-500">Loading...</p>
+        <p className="text-gray-400">Loading...</p>
       ) : answer ? (
         <ReactMarkdown
-          className="prose prose-lg max-w-none text-gray-800"
-          remarkPlugins={[remarkGfm, remarkBreaks]} // Fix lỗi xuống dòng
+          className="prose prose-lg max-w-none text-gray-300"
+          remarkPlugins={[remarkGfm, remarkBreaks]}
           rehypePlugins={[rehypeHighlight]}
           components={{
             h1: ({ ...props }) => (
               <h1
-                className="text-3xl font-bold text-blue-700 mt-6"
+                className="text-3xl font-bold text-blue-300 mt-6"
                 {...props}
               />
             ),
             h2: ({ ...props }) => (
               <h2
-                className="text-2xl font-semibold text-blue-600 mt-5"
+                className="text-2xl font-semibold text-blue-400 mt-5"
                 {...props}
               />
             ),
@@ -72,7 +99,7 @@ const Answer = ({ query }: { query: string }) => {
               />
             ),
             p: ({ ...props }) => (
-              <p className="text-gray-700 leading-7 mt-2" {...props} />
+              <p className="text-gray-300 leading-7 mt-2" {...props} />
             ),
             ul: ({ ...props }) => (
               <ul className="list-disc list-inside space-y-2 mt-2" {...props} />
@@ -85,13 +112,13 @@ const Answer = ({ query }: { query: string }) => {
             ),
             pre: ({ ...props }) => (
               <pre
-                className="bg-gray-100 p-4 rounded-md overflow-x-auto border border-gray-300"
+                className="bg-gray-800 p-4 rounded-md overflow-x-auto border border-gray-600"
                 {...props}
               />
             ),
             blockquote: ({ ...props }) => (
               <blockquote
-                className="border-l-4 border-blue-400 pl-4 italic text-gray-600 mt-3"
+                className="border-l-4 border-blue-500 pl-4 italic text-gray-400 mt-3"
                 {...props}
               />
             ),
@@ -100,7 +127,7 @@ const Answer = ({ query }: { query: string }) => {
           {answer}
         </ReactMarkdown>
       ) : (
-        <p className="text-gray-500">No answer found</p>
+        <p className="text-gray-400">No answer found</p>
       )}
     </div>
   );

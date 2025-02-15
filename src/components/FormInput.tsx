@@ -18,7 +18,7 @@ const FormInput = () => {
 
   return (
     <form
-      className="flex items-center space-x-3 bg-white shadow-md rounded-full p-2 border border-gray-200"
+      className="flex items-center space-x-3 bg-slate-800 shadow-lg rounded-full p-3 border border-slate-700 w-full h-full"
       onSubmit={handleSubmit}
     >
       <Input
@@ -26,8 +26,9 @@ const FormInput = () => {
         onChange={(e) => setSearch(e.target.value)}
         type="text"
         placeholder="Search..."
-        className="flex-1 px-4 py-2 bg-transparent focus:outline-none focus:ring-0"
+        className="flex-1 px-4 py-2 w-full bg-transparent text-white placeholder-gray-400 focus:outline-none focus:ring-0 border-none"
       />
+
       <Button
         type="submit"
         variant="default"

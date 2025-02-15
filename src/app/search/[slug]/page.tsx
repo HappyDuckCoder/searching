@@ -20,14 +20,14 @@ const SearchPage = () => {
   const query = slug ? decodeURIComponent(slug) : "Unknown Query";
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <section className="flex items-center justify-center flex-col w-full max-w-7xl overflow-hidden break-words whitespace-normal text-ellipsis p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-gray-800 text-center">
-          Search Results for: <span className="text-blue-600">{query}</span>
+    <main className="h-full w-full bg-slate-900 text-white flex flex-col items-center justify-center p-6">
+      <section className="w-full max-w-7xl p-6 space-y-6 border-2 border-gray-700 bg-slate-800 rounded-lg">
+        <h1 className="text-3xl font-bold text-center text-white">
+          Search Results for: <span className="text-blue-400">{query}</span>
         </h1>
 
         {query !== "Unknown Query" ? (
-          <div className="space-y-4 flex items-center justify-center flex-col w-full max-w-7xl overflow-hidden break-words whitespace-normal text-ellipsis p-6">
+          <div className="space-y-8 flex flex-col items-center justify-center">
             <Question query={query} />
             <Videos query={query} />
             <Images query={query} />
@@ -35,10 +35,12 @@ const SearchPage = () => {
             <Answer query={query} />
           </div>
         ) : (
-          <p className="text-red-500 text-center">Invalid search query.</p>
+          <p className="text-red-500 text-center text-lg font-semibold">
+            Invalid search query.
+          </p>
         )}
 
-        <div className="border-t pt-4">
+        <div className="border-t pt-4 w-full h-full">
           <FormInput />
         </div>
       </section>

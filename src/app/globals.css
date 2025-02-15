@@ -90,3 +90,9 @@ a {
 .radix-themes {
   display: none !important;
 }
+
+@layer utilities {
+  .text-shadow-md {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  }
+}

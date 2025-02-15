@@ -13,9 +13,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Theme>
-        <body className="bg-gray-100 text-gray-900">
-          <div className="flex flex-col items-center justify-center p-4">
-            <main className="w-full max-w-7xl overflow-hidden break-words whitespace-normal text-ellipsis">
+        <body className="bg-slate-900 text-gray-200 font-sans">
+          <div className="flex flex-col items-center justify-center">
+            <main className="w-full h-full overflow-hidden break-words whitespace-normal text-ellipsis">
               {children}
             </main>
           </div>

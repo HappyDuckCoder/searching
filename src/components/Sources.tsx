@@ -32,8 +32,8 @@ const Sources = ({ query }: { query: string }) => {
       console.log("Fetched sources:", data.RelatedTopics);
 
       // Lấy đúng 4 kết quả, nếu ít hơn 4 thì tự thêm card rỗng
-      const filledSources = [...data.RelatedTopics.slice(0, 4)];
-      while (filledSources.length < 4) {
+      const filledSources = [...data.RelatedTopics.slice(0, 6)];
+      while (filledSources.length < 6) {
         filledSources.push({ Text: "", FirstURL: "", Icon: { URL: "" } });
       }
 
@@ -51,10 +51,12 @@ const Sources = ({ query }: { query: string }) => {
   }, [fetchSources]); // ✅ Không còn lỗi ESLint
 
   return (
-    <div>
-      {loading && <p>Loading...</p>}
+    <div className="w-full p-4 mb-6 bg-slate-800 border border-gray-700 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-4">Sources:</h2>
+      {loading && <p className="text-gray-400">Loading...</p>}{" "}
+      {/* Màu sắc khi loading */}
       {error && <p className="text-red-500">{error}</p>}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4 justify-items-center">
         {sources.map((source, index) => (
           <SourceCard key={index} source={source} />
         ))}

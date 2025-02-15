@@ -22,55 +22,58 @@ const SourceCard = ({ source }: { source: DuckDuckGoRelatedTopic }) => {
     >
       <Card
         style={{
-          padding: "16px",
+          padding: "20px",
           borderRadius: "12px",
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-          transition: "all 0.2s ease-in-out",
+          boxShadow: "0 6px 14px rgba(0, 0, 0, 0.15)",
+          transition: "all 0.3s ease-in-out",
           cursor: "pointer",
-          backgroundColor: "white",
+          backgroundColor: "rgb(30, 41, 59)", // Dark background
+          border: "1px solid #4b5563", // Border color for dark mode
+          // height: "220px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.03)";
-          e.currentTarget.style.backgroundColor = "#f9fafb";
+          e.currentTarget.style.transform = "scale(1.05)";
+          e.currentTarget.style.backgroundColor = "#374151"; // Slightly lighter hover effect
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.backgroundColor = "white";
+          e.currentTarget.style.backgroundColor = "rgb(30, 41, 59)"; // Default background on leave
         }}
       >
-        {/* Dùng style trực tiếp để chắc chắn `gap` hoạt động */}
-        <Flex
-          align="center"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px", // Đảm bảo có khoảng cách giữa icon và nội dung
-          }}
-        >
-          {/* Ảnh Icon */}
+        {/* Icon & Content */}
+        <Flex align="center" gap="16px">
+          {/* Icon Image */}
           <Image
             src={iconUrl}
             width={50}
             height={50}
             alt="Source Icon"
             style={{
-              borderRadius: "8px",
+              borderRadius: "10px",
               objectFit: "cover",
               flexShrink: 0,
+              border: "1px solid #6b7280",
+              padding: "4px",
+              backgroundColor: "#1e293b",
             }}
             onError={() => setIconUrl(defaultIcon)}
           />
 
-          {/* Nội dung */}
+          {/* Title & URL */}
           <Box style={{ flex: 1 }}>
             <Text
               as="div"
-              size="3"
+              size="4"
               weight="bold"
               style={{
                 fontFamily: "Arial, sans-serif",
                 wordBreak: "break-word",
                 whiteSpace: "normal",
+                color: "white",
+                lineHeight: "1.4",
               }}
             >
               <a
@@ -79,13 +82,16 @@ const SourceCard = ({ source }: { source: DuckDuckGoRelatedTopic }) => {
                 rel="noopener noreferrer"
                 style={{
                   textDecoration: "none",
-                  color: "#2563eb",
+                  color: "#60a5fa", // Brighter blue for better visibility
                   display: "block",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "240px",
                   whiteSpace: "nowrap",
+                  transition: "color 0.2s ease-in-out",
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#93c5fd")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#60a5fa")}
               >
                 {source.Text}
               </a>
@@ -101,12 +107,24 @@ const SourceCard = ({ source }: { source: DuckDuckGoRelatedTopic }) => {
                 whiteSpace: "nowrap",
                 display: "block",
                 fontSize: "13px",
+                color: "#9ca3af",
               }}
             >
               {source.FirstURL}
             </Text>
           </Box>
         </Flex>
+
+        {/* Decorative Bottom Border */}
+        <Box
+          style={{
+            height: "4px",
+            width: "100%",
+            background: "linear-gradient(90deg, #3b82f6, #9333ea)",
+            borderRadius: "2px",
+            marginTop: "12px",
+          }}
+        />
       </Card>
     </Box>
   );
