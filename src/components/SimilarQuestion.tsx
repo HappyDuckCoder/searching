@@ -46,7 +46,7 @@ const SimilarQuestion = ({ query }: { query: string }) => {
                 className="w-full flex items-center justify-between p-3 border rounded-lg transition-all duration-200 hover:bg-gray-100 hover:translate-x-2"
                 onClick={() => router.push(`/search/${question}`)}
               >
-                <span className="text-left text-sm font-medium">
+                <span className="text-left text-sm font-medium break-words whitespace-normal overflow-hidden truncate">
                   {question}
                 </span>
                 <ChevronRight className="w-4 h-4 text-gray-500 transition-transform duration-200 group-hover:translate-x-1" />

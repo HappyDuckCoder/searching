@@ -1,6 +1,6 @@
 "use client";
 
-import { DuckDuckGoResult, DuckDuckGoRelatedTopic } from "@/lib/duckduckgo";
+import { DuckDuckGoRelatedTopic } from "@/lib/duckduckgo";
 import React, { useEffect, useState } from "react";
 import SourceCard from "./radix/SourceCard";
 
@@ -31,7 +31,13 @@ const Sources = ({ query }: { query: string }) => {
       const data = await response.json();
       console.log("Fetched sources:", data.RelatedTopics);
 
-      setSources(data.RelatedTopics || []);
+      // Lấy đúng 4 kết quả, nếu ít hơn 4 thì tự thêm card rỗng
+      const filledSources = [...data.RelatedTopics.slice(0, 4)];
+      while (filledSources.length < 4) {
+        filledSources.push({ Text: "", FirstURL: "", Icon: { URL: "" } });
+      }
+
+      setSources(filledSources);
     } catch (err) {
       console.error("Error fetching sources:", err);
       setError("Could not load sources. Please try again.");
@@ -48,17 +54,11 @@ const Sources = ({ query }: { query: string }) => {
     <div>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
-      <ul className="space-x-2 flex flex-row">
-        {sources.length > 0 ? (
-          sources.map((source, index) => (
-            <li key={source.FirstURL || `source-${index}`}>
-              <SourceCard source={source} />
-            </li>
-          ))
-        ) : !loading ? (
-          <div>No sources found.</div>
-        ) : null}
-      </ul>
+      <div className="grid grid-cols-2 gap-4">
+        {sources.map((source, index) => (
+          <SourceCard key={index} source={source} />
+        ))}
+      </div>
     </div>
   );
 };

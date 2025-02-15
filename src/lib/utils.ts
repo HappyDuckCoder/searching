@@ -33,3 +33,15 @@ export function normalizeData(data: any): any {
 
   return data;
 }
+
+export const getValidImageUrl = (url: string | undefined) => {
+  if (!url || url.trim() === "") {
+    return "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+  }
+
+  if (!url.startsWith("http")) {
+    return `https://duckduckgo.com${url}`;
+  }
+
+  return url;
+};
