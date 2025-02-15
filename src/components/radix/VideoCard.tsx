@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { Card, Inset, Box, Text, Strong } from "@radix-ui/themes";
+import { Card, Inset, Box, Text } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { FinalResultResponse } from "@/lib/youtube";
+import Image from "next/image";
 
 const MyVideoCard = ({ video }: { video: FinalResultResponse }) => {
   return (
@@ -33,7 +34,7 @@ const MyVideoCard = ({ video }: { video: FinalResultResponse }) => {
         }}
       >
         <Inset clip="padding-box" side="top" pb="current">
-          <img
+          <Image
             src={video.image || "https://via.placeholder.com/280x140"}
             alt={video.name || "Video Thumbnail"}
             style={{
@@ -45,6 +46,8 @@ const MyVideoCard = ({ video }: { video: FinalResultResponse }) => {
               borderTopLeftRadius: "12px",
               borderTopRightRadius: "12px",
             }}
+            width={280}
+            height={140}
           />
         </Inset>
         <Box px="2" py="2">

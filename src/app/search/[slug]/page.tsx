@@ -6,20 +6,17 @@ import Images from "@/components/Images";
 import Question from "@/components/Question";
 import Sources from "@/components/Sources";
 import Videos from "@/components/Videos";
-import { useParams } from "next/navigation"; // ✅ Support for Next.js App Router
+import { useParams } from "next/navigation"; // ✅ App Router hook
 import React from "react";
 
-const SearchPage = ({ params }: { params: { slug: string } }) => {
-  // ✅ Get params from Next.js router if not passed as a prop
-  const routerParams = useParams();
-  let slug = params?.slug || routerParams?.slug;
+const SearchPage = () => {
+  const routerParams = useParams(); // ✅ Always use `useParams()`
+  let slug = routerParams?.slug;
 
-  // ✅ Ensure slug is a string (handle array case)
   if (Array.isArray(slug)) {
-    slug = slug.join("/"); // Convert ["search", "example"] to "search/example"
+    slug = slug.join("/");
   }
 
-  // ✅ Prevent decodeURIComponent error if slug is undefined
   const query = slug ? decodeURIComponent(slug) : "Unknown Query";
 
   return (
@@ -29,7 +26,6 @@ const SearchPage = ({ params }: { params: { slug: string } }) => {
           Search Results for: <span className="text-blue-600">{query}</span>
         </h1>
 
-        {/* ✅ Render components only if a valid query exists */}
         {query !== "Unknown Query" ? (
           <div className="space-y-4 flex items-center justify-center flex-col w-full max-w-7xl overflow-hidden break-words whitespace-normal text-ellipsis p-6">
             <Question query={query} />

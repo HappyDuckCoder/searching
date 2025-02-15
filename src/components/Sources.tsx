@@ -1,7 +1,7 @@
 "use client";
 
 import { DuckDuckGoRelatedTopic } from "@/lib/duckduckgo";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import SourceCard from "./radix/SourceCard";
 
 const Sources = ({ query }: { query: string }) => {
@@ -9,7 +9,7 @@ const Sources = ({ query }: { query: string }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchSources = async () => {
+  const fetchSources = useCallback(async () => {
     if (!query.trim()) return;
 
     setLoading(true);
@@ -44,11 +44,11 @@ const Sources = ({ query }: { query: string }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [query]); // ✅ `useCallback` để đảm bảo hàm không thay đổi trừ khi `query` thay đổi
 
   useEffect(() => {
     fetchSources();
-  }, [fetchSources, query]);
+  }, [fetchSources]); // ✅ Không còn lỗi ESLint
 
   return (
     <div>

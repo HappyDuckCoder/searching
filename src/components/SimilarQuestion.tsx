@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Button } from "./ui/button";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,9 @@ const SimilarQuestion = ({ query }: { query: string }) => {
   const router = useRouter();
   const [similarQuestions, setSimilarQuestions] = useState<string[]>([]);
 
-  const generateSimilarQuestions = async () => {
+  const generateSimilarQuestions = useCallback(async () => {
+    if (!query) return; // ✅ Tránh fetch khi `query` trống
+
     try {
       const response = await fetch("/api/getSimilarQuestion", {
         method: "POST",
@@ -19,21 +21,18 @@ const SimilarQuestion = ({ query }: { query: string }) => {
         body: JSON.stringify({ question: query }),
       });
 
-      if (!response.ok) {
-        return;
-      }
+      if (!response.ok) return;
 
       const data = await response.json();
       setSimilarQuestions((data.similarTopics as string[]) || []);
     } catch (error) {
       console.error("Error fetching similar questions:", error);
     }
-  };
+  }, [query]); // ✅ `useCallback` để tránh re-define function liên tục
 
   useEffect(() => {
-    if (!query) return;
     generateSimilarQuestions();
-  }, [generateSimilarQuestions, query]);
+  }, [generateSimilarQuestions]); // ✅ Không còn lỗi ESLint
 
   return (
     <div className="flex flex-col items-center w-full max-w-lg mx-auto p-4">

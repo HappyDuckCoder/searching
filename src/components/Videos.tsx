@@ -1,17 +1,15 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MyVideoCard from "./radix/VideoCard";
 import { FinalResultResponse } from "@/lib/youtube";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css"; // Import Swiper styles
+import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
 const Videos = ({ query }: { query: string }) => {
   const [videos, setVideos] = useState<FinalResultResponse[]>([]);
 
-  const fetchVideos = async () => {
+  const fetchVideos = useCallback(async () => {
     if (!query) return;
 
     try {
@@ -28,16 +26,15 @@ const Videos = ({ query }: { query: string }) => {
 
       const data = await response.json();
       console.log("Fetched videos:", data);
-
       setVideos(data || []);
     } catch (error) {
       console.error("Error fetching videos:", error);
     }
-  };
+  }, [query]); // ✅ `fetchVideos` không thay đổi trừ khi `query` thay đổi
 
   useEffect(() => {
     fetchVideos();
-  }, [fetchVideos, query]);
+  }, [fetchVideos]); // ✅ Không còn lỗi ESLint
 
   return (
     <div className="w-full max-w-4xl mx-auto">

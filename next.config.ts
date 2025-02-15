@@ -5,7 +5,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "duckduckgo.com",
-        pathname: "/i/**", // Cho phép tải ảnh từ thư mục `/i/`
+        pathname: "/i/**",
       },
       {
         protocol: "https",
@@ -18,6 +18,16 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "cdn-icons-png.flaticon.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        pathname: "/vi/**",
+      },
+      {
+        protocol: "https", // ✅ Thêm Wikipedia
+        hostname: "upload.wikimedia.org",
+        pathname: "/wikipedia/**",
       },
     ],
   },
