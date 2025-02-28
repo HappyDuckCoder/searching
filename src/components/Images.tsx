@@ -13,7 +13,6 @@ const Images = ({ query }: { query: string }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ Sử dụng useCallback để tránh re-define hàm fetchImages
   const fetchImages = useCallback(async () => {
     if (!query) return;
 
@@ -27,6 +26,8 @@ const Images = ({ query }: { query: string }) => {
         body: JSON.stringify({ question: query }),
       });
 
+      // *NOTE: DEBUGGING
+
       if (!response.ok) throw new Error("Failed to fetch images");
 
       const data = await response.json();
@@ -37,11 +38,11 @@ const Images = ({ query }: { query: string }) => {
     } finally {
       setLoading(false);
     }
-  }, [query]); // 🔥 Đưa query vào dependency
+  }, [query]);
 
   useEffect(() => {
     fetchImages();
-  }, [fetchImages]); // ✅ Không còn cảnh báo thiếu dependency
+  }, [fetchImages]);
 
   return (
     <div className="w-full p-4 mb-6 bg-slate-800 border border-gray-700 rounded-lg shadow-lg">

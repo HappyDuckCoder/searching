@@ -44,11 +44,11 @@ const Sources = ({ query }: { query: string }) => {
     } finally {
       setLoading(false);
     }
-  }, [query]); // ✅ `useCallback` để đảm bảo hàm không thay đổi trừ khi `query` thay đổi
+  }, [query]);
 
   useEffect(() => {
     fetchSources();
-  }, [fetchSources]); // ✅ Không còn lỗi ESLint
+  }, [fetchSources]);
 
   return (
     <div className="w-full p-4 mb-6 bg-slate-800 border border-gray-700 rounded-lg shadow-lg">

@@ -1,19 +1,27 @@
-import { getSearchResults, SearchResponse } from "@/lib/tavily";
+import { getSearchResults } from "@/lib/tavily";
 
-export async function POST(request: Request) {
-  const body = await request.json();
+export async function POST(req: Request) {
   try {
-    const response: SearchResponse = await getSearchResults(body.question);
+    const { question } = await req.json();
+    console.log("Received request with query:", question);
 
-    // console.log(response);
+    if (!question) {
+      return new Response(JSON.stringify({ error: "Missing query" }), {
+        status: 400,
+      });
+    }
 
-    return new Response(JSON.stringify(response), {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const searchResults = await getSearchResults(question);
+    console.log("API response:", searchResults);
+
+    return new Response(JSON.stringify({ images: searchResults.images }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
     });
-  } catch (e) {
-    console.error(e);
-    return new Response("Error fetching sources", { status: 500 });
+  } catch (error) {
+    console.error("API error:", error);
+    return new Response(JSON.stringify({ error: "Failed to fetch images" }), {
+      status: 500,
+    });
   }
 }
