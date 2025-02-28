@@ -18,7 +18,8 @@ Searching Web là một dự án cá nhân được phát triển bởi **duckil
 
 ## Hình ảnh minh họa
 
-_(Thêm hình ảnh vào đây)_
+![Image](/public/rm1.png)
+![Image](/public//rm2.png)
 
 ## Công nghệ sử dụng
 
